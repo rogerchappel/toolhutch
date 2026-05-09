@@ -1,58 +1,26 @@
 # Security Policy
 
-## Supported Versions
+`toolhutch` is a local-first review utility. It helps identify risky agent-tool capabilities in JSON/YAML manifests, but it is not a sandbox, policy enforcement layer, or complete security scanner.
 
-Replace this section with the supported versions for `toolhutch`.
+## Supported versions
 
-Example:
+Security fixes target the current `main` branch until the first tagged release. After `1.0`, supported release lines will be listed here.
 
-```md
-| Version | Supported |
-| --- | --- |
-| .x | Yes |
-| < .0 | No |
-```
+## Reporting a vulnerability
 
-If the project does not publish versioned releases yet, say that clearly.
+Please report vulnerabilities privately through GitHub Security Advisories when available, or contact the maintainer without posting exploit details publicly.
 
-## Reporting a Vulnerability
+Include:
 
-Please do not report suspected vulnerabilities in public issues, pull requests, or discussions.
+- affected version or commit
+- manifest/policy shape needed to reproduce the issue
+- expected and actual behavior
+- whether the issue can expose secrets, suppress critical findings, or cause unsafe output
 
-Ask maintainers for the private security reporting path before sharing details.
+Do not include real credentials, tokens, private manifests, or customer data.
 
-If no private reporting path exists yet, ask maintainers through public project channels for a private reporting path. Do not include exploit details, secrets, personal data, or sensitive technical details in public messages.
+## Boundaries
 
-## What to Include
+`toolhutch` should not perform hidden network calls during scan, explain, or policy commands. If you observe unexpected network access, treat it as a security bug.
 
-When a private reporting path is available, include:
-
-- A clear description of the issue.
-- Affected versions, files, packages, workflows, or configuration.
-- Steps to reproduce, proof of concept, or attack scenario when safe to share.
-- Potential impact.
-- Suggested mitigation, if known.
-
-## Response Expectations
-
-Maintainers review good-faith reports as capacity allows.
-
-Do not imply paid support, guaranteed response times, guaranteed fixes, or service-level agreements unless `toolhutch` explicitly provides them.
-
-## Scope
-
-In scope:
-
-- Vulnerabilities in toolhutch.
-- Insecure default configuration shipped by this project.
-- CI, release, or dependency guidance maintained by this project.
-
-Out of scope:
-
-- General support requests.
-- Requests for guaranteed maintenance timelines.
-- Issues in unrelated downstream projects.
-
-## Disclosure
-
-Coordinate disclosure with maintainers before publishing vulnerability details.
+`toolhutch` flags secret-related capability surfaces by names and descriptions. It should not print secret values intentionally.
