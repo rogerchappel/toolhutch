@@ -10,6 +10,7 @@ export { parseManifest, parseManifests } from "./parser.js";
 export { classifyManifest } from "./classifier.js";
 export { applyPolicy, loadPolicy } from "./policy.js";
 export { renderMarkdown, renderReport } from "./report.js";
+export { recommendedReviewMode, riskEmoji } from "./severity.js";
 
 export const VERSION = "0.1.0";
 
