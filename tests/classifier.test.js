@@ -18,3 +18,10 @@ test("keeps benign fixture free of high-risk findings", async () => {
   const findings = classifyManifest(manifest);
   assert.deepEqual(findings.map((finding) => finding.capability), []);
 });
+
+test("classifies database and package manager tools", async () => {
+  const manifest = await parseManifest("fixtures/database-package-tools.json");
+  const findings = classifyManifest(manifest);
+  assert.ok(findings.some((finding) => finding.capability === "database"));
+  assert.ok(findings.some((finding) => finding.capability === "package-manager"));
+});

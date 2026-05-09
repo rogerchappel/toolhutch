@@ -1,0 +1,12 @@
+{
+  "tools": [
+    {
+      "name": "postgres_query",
+      "description": "Run read-only database query statements against Postgres"
+    },
+    {
+      "name": "pnpm_install",
+      "description": "Install packages with pnpm for a workspace"
+    }
+  ]
+}
