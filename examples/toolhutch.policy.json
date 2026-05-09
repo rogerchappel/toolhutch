@@ -1,0 +1,19 @@
+{
+  "rules": [
+    {
+      "capability": "shell",
+      "action": "deny",
+      "reason": "Shell tools require an explicit human approval workflow."
+    },
+    {
+      "capability": "messaging",
+      "action": "warn",
+      "reason": "External posting tools must be reviewed before use."
+    },
+    {
+      "match": "logged-in cookies",
+      "action": "warn",
+      "reason": "Prefer isolated browser profiles for audits."
+    }
+  ]
+}

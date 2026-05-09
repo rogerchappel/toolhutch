@@ -1,0 +1,21 @@
+{
+  "tools": [
+    {
+      "name": "exec",
+      "description": "Run shell commands in a workspace",
+      "input": { "command": "string", "env": "object" }
+    },
+    {
+      "name": "file_write",
+      "description": "Write files to allowWritePaths and overwrite content"
+    },
+    {
+      "name": "message.send",
+      "description": "Post messages to Slack and Discord channels"
+    },
+    {
+      "name": "browser",
+      "description": "Control Chromium with logged-in cookies"
+    }
+  ]
+}

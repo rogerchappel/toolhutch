@@ -1,0 +1,15 @@
+mcpServers:
+  local-files:
+    command: node
+    args: [server.js]
+    capabilities:
+      - read_file
+      - write_file
+  search:
+    url: https://example.invalid/mcp
+    tools:
+      - web_fetch
+      - web_search
+  secrets-helper:
+    env:
+      API_TOKEN: required

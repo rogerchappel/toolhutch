@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "notes": {
+      "description": "Read-only note summarizer",
+      "tools": [
+        { "name": "summarize_notes", "description": "Summarize supplied text blocks" },
+        { "name": "list_templates", "description": "List local prompt templates bundled with the app" }
+      ]
+    }
+  }
+}
