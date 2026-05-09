@@ -14,7 +14,8 @@
   "fixtures": [
     "fixtures/benign-tools.json",
     "fixtures/risky-openclaw-tools.json",
-    "fixtures/mcp-mixed.yaml"
+    "fixtures/mcp-mixed.yaml",
+    "fixtures/database-package-tools.json"
   ],
   "policyExample": "examples/toolhutch.policy.json"
 }
