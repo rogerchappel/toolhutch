@@ -1,38 +1,23 @@
 # Roadmap
 
-This roadmap describes intended direction, not a binding delivery promise.
-Review it regularly and update it as the project learns from users,
-contributors, and implementation constraints.
+## 0.1 MVP
 
-## Now
-
-- Define the smallest useful project scope.
-- Keep repository setup, documentation, and verification easy for contributors
-  to follow.
-- Ship small, reviewable improvements.
+- Local JSON/YAML scan commands.
+- Markdown and JSON reports.
+- Local policy rules.
+- Fixture-backed tests and CLI smoke checks.
 
 ## Next
 
-- Add the next capabilities that directly support the project's primary users.
-- Improve tests, docs, and examples around the most used workflows.
-- Reduce setup friction discovered during early use.
+- Publish a formal JSON Schema for report and policy files.
+- Add SARIF export for repository review workflows.
+- Expand MCP-specific presets and examples.
+- Improve YAML support if users bring more complex manifests.
+- Add false-positive suppression comments in policy files.
 
-## Later
+## Non-goals
 
-- Consider larger features after the core workflow is stable.
-- Add automation only where it removes repeated maintainer work.
-- Revisit packaging, deployment, or integration options based on real demand.
-
-## Not Planned
-
-- Unrelated platform rewrites without a clear migration path.
-- Mandatory dependencies on a single ecosystem unless the project requires it.
-- Public release dates before maintainers are ready to commit to them.
-
-## Roadmap Review
-
-Before each major or meaningful minor release:
-
-- Move completed user-visible work into `CHANGELOG.md`.
-- Remove stale commitments.
-- Promote only the next reviewable set of work into `Now`.
+- Runtime permission enforcement.
+- Hosted scanning service.
+- Secret value extraction.
+- Hidden telemetry or background network calls.
