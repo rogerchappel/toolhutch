@@ -71,7 +71,7 @@ bash scripts/validate.sh
 
 ## Documentation
 
-See [`docs/PRD.md`](docs/PRD.md), [`docs/TASKS.md`](docs/TASKS.md), and [`docs/ORCHESTRATION.md`](docs/ORCHESTRATION.md).
+See [`docs/PRD.md`](docs/PRD.md), [`docs/TASKS.md`](docs/TASKS.md), [`docs/ORCHESTRATION.md`](docs/ORCHESTRATION.md), and [`docs/limitations.md`](docs/limitations.md).
 
 ## Contributing
 
