@@ -7,8 +7,8 @@ export function buildReport(input: {
   target: string;
   files: string[];
   findings: CapabilityFinding[];
-  policyPath?: string;
-  policyRules?: number;
+  policyPath?: string | undefined;
+  policyRules?: number | undefined;
   version: string;
 }): ScanReport {
   const byRisk = Object.fromEntries(RISKS.map((risk) => [risk, 0])) as Record<RiskLevel, number>;

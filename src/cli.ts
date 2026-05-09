@@ -5,9 +5,9 @@ import type { OutputFormat } from "./types.js";
 
 interface ParsedArgs {
   command: string;
-  target?: string;
+  target?: string | undefined;
   format: OutputFormat;
-  policyPath?: string;
+  policyPath?: string | undefined;
   json: boolean;
 }
 

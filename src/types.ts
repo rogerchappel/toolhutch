@@ -26,8 +26,8 @@ export interface CapabilityFinding {
   label: string;
   evidence: Evidence[];
   mitigations: string[];
-  policyAction?: PolicyAction;
-  policyReason?: string;
+  policyAction?: PolicyAction | undefined;
+  policyReason?: string | undefined;
 }
 
 export interface ParsedManifest {
@@ -49,8 +49,8 @@ export interface ToolhutchPolicy {
 
 export interface ScanOptions {
   format?: OutputFormat;
-  policyPath?: string;
-  includeLow?: boolean;
+  policyPath?: string | undefined;
+  includeLow?: boolean | undefined;
 }
 
 export interface ScanReport {
