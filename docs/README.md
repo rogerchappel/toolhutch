@@ -1,13 +1,8 @@
-# toolhutch Documentation
+# Documentation
 
-This directory holds project documentation.
+- [PRD](PRD.md) — product requirements and scope.
+- [Tasks](TASKS.md) — MVP checklist and follow-up work.
+- [Orchestration](ORCHESTRATION.md) — local verification and agent workflow.
+- [orchestration.json](orchestration.json) — machine-readable verification metadata.
 
-## Contents
-
-- [Contributing guide](../CONTRIBUTING.md)
-- [Security policy](../SECURITY.md)
-- [Agent instructions](../AGENTS.md)
-
-## Additional docs
-
-For a hosted documentation site, see the `docs-site/` directory if present.
+`toolhutch` reports are local evidence packs for permission review. They are not runtime enforcement and do not replace a security audit.

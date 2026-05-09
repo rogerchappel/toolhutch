@@ -1,0 +1,20 @@
+{
+  "project": "toolhutch",
+  "runtime": "node>=20",
+  "packageManager": "npm",
+  "localFirst": true,
+  "networkRequiredForDefaultCommands": false,
+  "commands": {
+    "check": "npm run check",
+    "test": "npm test",
+    "build": "npm run build",
+    "smoke": "npm run smoke",
+    "validate": "bash scripts/validate.sh"
+  },
+  "fixtures": [
+    "fixtures/benign-tools.json",
+    "fixtures/risky-openclaw-tools.json",
+    "fixtures/mcp-mixed.yaml"
+  ],
+  "policyExample": "examples/toolhutch.policy.json"
+}
