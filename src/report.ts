@@ -1,4 +1,5 @@
 import { riskRank } from "./capabilities.js";
+import { recommendedReviewMode, riskEmoji } from "./severity.js";
 import type { CapabilityClass, CapabilityFinding, OutputFormat, RiskLevel, ScanReport } from "./types.js";
 
 const RISKS: RiskLevel[] = ["low", "medium", "high", "critical"];
@@ -50,7 +51,8 @@ export function renderMarkdown(report: ScanReport): string {
     `- Target: \`${report.target}\``,
     `- Files scanned: ${report.summary.files}`,
     `- Findings: ${report.summary.findings}`,
-    `- Highest risk: **${report.summary.highestRisk}**`,
+    `- Highest risk: ${riskEmoji(report.summary.highestRisk)} **${report.summary.highestRisk}**`,
+    `- Recommended review: ${recommendedReviewMode(report.findings)}`,
     `- Policy denies: ${report.summary.denied}`,
     `- Policy warnings: ${report.summary.warned}`,
     "",
