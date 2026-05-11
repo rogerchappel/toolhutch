@@ -21,3 +21,16 @@ test("cli rejects unknown options with usage exit", () => {
   assert.equal(result.status, 64);
   assert.match(result.stderr, /Unknown option/);
 });
+
+test("cli shows command help without trying to scan --help as a path", () => {
+  const result = spawnSync(process.execPath, [...CLI, "scan", "--help"], { encoding: "utf8" });
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /Usage:/);
+  assert.equal(result.stderr, "");
+});
+
+test("cli rejects missing policy path instead of consuming another flag", () => {
+  const result = spawnSync(process.execPath, [...CLI, "policy", "fixtures/risky-openclaw-tools.json", "--policy", "--json"], { encoding: "utf8" });
+  assert.equal(result.status, 64);
+  assert.match(result.stderr, /--policy requires a path/);
+});

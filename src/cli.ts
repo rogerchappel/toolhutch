@@ -41,29 +41,42 @@ async function main(argv: string[]): Promise<number> {
 }
 
 function parseArgs(argv: string[]): ParsedArgs {
-  const [command = "--help", target, ...rest] = argv;
-  const parsed: ParsedArgs = { command, target, format: "markdown", json: false };
-  for (let index = 0; index < rest.length; index += 1) {
-    const arg = rest[index]!;
+  const parsed: ParsedArgs = { command: "--help", format: "markdown", json: false };
+  const positionals: string[] = [];
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index]!;
+    if (arg === "--help" || arg === "-h") {
+      parsed.command = "help";
+      continue;
+    }
+    if (arg === "--version" || arg === "-v") {
+      parsed.command = "version";
+      continue;
+    }
     if (arg === "--json") parsed.json = true;
     else if (arg === "--format") {
-      const value = rest[++index];
+      const value = argv[++index];
       if (value !== "json" && value !== "markdown") throw new ToolhutchError("--format must be json or markdown", "USAGE");
       parsed.format = value;
     } else if (arg === "--policy") {
-      parsed.policyPath = rest[++index];
-      if (!parsed.policyPath) throw new ToolhutchError("--policy requires a path", "USAGE");
-    } else if (arg === "--help") {
-      parsed.command = "help";
-    } else {
+      parsed.policyPath = argv[++index];
+      if (!parsed.policyPath || parsed.policyPath.startsWith("--")) throw new ToolhutchError("--policy requires a path", "USAGE");
+    } else if (arg.startsWith("--")) {
       throw new ToolhutchError(`Unknown option: ${arg}`, "USAGE");
+    } else {
+      positionals.push(arg);
     }
+  }
+  if (parsed.command !== "help" && parsed.command !== "version") {
+    parsed.command = positionals[0] ?? "--help";
+    parsed.target = positionals[1];
+    if (positionals.length > 2) throw new ToolhutchError(`Unexpected argument: ${positionals[2]}`, "USAGE");
   }
   return parsed;
 }
 
 function help(): string {
-  return `toolhutch ${VERSION}\n\nUsage:\n  toolhutch scan <path> [--format markdown|json] [--policy policy.json]\n  toolhutch explain <path> [--json]\n  toolhutch policy <path> --policy policy.json [--json]\n\nCommands:\n  scan      Emit a risk brief for JSON/YAML tool manifests.\n  explain   Emit all evidence and exit 2 when critical capabilities are present.\n  policy    Apply allow/warn/deny rules and exit 3 on deny.\n\nNo command performs network calls.\n`;
+  return `toolhutch ${VERSION}\n\nUsage:\n  toolhutch scan <path> [--format markdown|json] [--policy policy.json]\n  toolhutch explain <path> [--json]\n  toolhutch policy <path> --policy policy.json [--json]\n  toolhutch --help | --version\n\nCommands:\n  scan      Emit a risk brief for JSON/YAML tool manifests.\n  explain   Emit all evidence and exit 2 when critical capabilities are present.\n  policy    Apply allow/warn/deny rules and exit 3 on deny.\n\nNo command performs network calls.\n`;
 }
 
 main(process.argv.slice(2)).then((code) => {
