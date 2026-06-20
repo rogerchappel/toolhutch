@@ -9,8 +9,11 @@
 - [x] Implement `toolhutch policy <path> --policy <file>` with allow/warn/deny rules.
 - [x] Classify shell, filesystem read/write, browser, network, messaging, secrets, database, and package-manager capabilities.
 - [x] Render Markdown and JSON reports.
+- [x] Include deterministic approval-plan gates in reports.
 - [x] Include benign, risky, and mixed fixtures.
+- [x] Add approval-gate fixture coverage.
 - [x] Add unit, integration, and CLI smoke tests.
+- [x] Add an agent skill usage guide.
 - [x] Document local-first safety boundaries and limitations.
 
 ## Later
