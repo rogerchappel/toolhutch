@@ -24,7 +24,18 @@ toolhutch explain ./fixtures/risky-openclaw-tools.json --json
 toolhutch policy ./fixtures/risky-openclaw-tools.json --policy ./examples/toolhutch.policy.json
 ```
 
-Example output includes capability labels, risk levels, evidence paths, and mitigations.
+Example output includes capability labels, risk levels, evidence paths, mitigations, and an approval plan for the risky capabilities found.
+
+## Approval plans
+
+Every report includes local review gates derived from the highest detected risks:
+
+- critical findings block until an owner approves the tool surface
+- high-risk findings require maintainer approval
+- medium and low findings are documented for later review
+- policy denies are listed first and cause `toolhutch policy` to exit `3`
+
+Approval plans are deterministic and are not external approval workflow automation. They are meant to be copied into an issue, pull request, or run log before enabling new agent tools.
 
 ## Capabilities detected
 
