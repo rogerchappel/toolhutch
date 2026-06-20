@@ -82,7 +82,7 @@ bash scripts/validate.sh
 
 ## Documentation
 
-See [`docs/PRD.md`](docs/PRD.md), [`docs/TASKS.md`](docs/TASKS.md), [`docs/ORCHESTRATION.md`](docs/ORCHESTRATION.md), and [`docs/limitations.md`](docs/limitations.md).
+See [`docs/PRD.md`](docs/PRD.md), [`docs/TASKS.md`](docs/TASKS.md), [`docs/ORCHESTRATION.md`](docs/ORCHESTRATION.md), [`docs/SKILL.md`](docs/SKILL.md), and [`docs/limitations.md`](docs/limitations.md).
 
 ## Contributing
 
