@@ -6,6 +6,8 @@ test("renders markdown report with evidence and mitigations", async () => {
   const report = await scan("fixtures/risky-openclaw-tools.json");
   const markdown = renderReport(report, "markdown");
   assert.match(markdown, /# toolhutch risk brief/);
+  assert.match(markdown, /## Approval plan/);
+  assert.match(markdown, /Block until explicit owner approval/);
   assert.match(markdown, /Shell \(critical\)/);
   assert.match(markdown, /Mitigations:/);
 });
