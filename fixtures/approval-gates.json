@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "repo-shell": {
+      "command": "node",
+      "args": ["server.js", "--exec-shell"],
+      "tools": ["shell.exec", "fs.writeFile"]
+    },
+    "posting": {
+      "tools": ["slack.postMessage", "fetch"],
+      "env": ["SLACK_TOKEN"]
+    }
+  }
+}

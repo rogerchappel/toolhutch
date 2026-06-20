@@ -22,3 +22,9 @@ test("scan parses yaml MCP-style manifests", async () => {
   assert.ok(report.findings.some((finding) => finding.capability === "network"));
   assert.ok(report.findings.some((finding) => finding.capability === "secrets"));
 });
+
+test("scan includes approval gates in JSON-ready reports", async () => {
+  const report = await scan("fixtures/approval-gates.json");
+  assert.ok(report.approvalPlan.some((step) => step.action === "block"));
+  assert.ok(report.approvalPlan.some((step) => step.action === "approve"));
+});
