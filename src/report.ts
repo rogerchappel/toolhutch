@@ -1,4 +1,5 @@
 import { riskRank } from "./capabilities.js";
+import { buildApprovalPlan } from "./approval.js";
 import { recommendedReviewMode, riskEmoji } from "./severity.js";
 import type { CapabilityClass, CapabilityFinding, OutputFormat, RiskLevel, ScanReport } from "./types.js";
 
@@ -35,6 +36,7 @@ export function buildReport(input: {
       warned: input.findings.filter((finding) => finding.policyAction === "warn").length,
     },
     findings: input.findings,
+    approvalPlan: buildApprovalPlan(input.findings),
   };
   if (input.policyPath) report.policy = { path: input.policyPath, rules: input.policyRules ?? 0 };
   return report;
@@ -56,13 +58,16 @@ export function renderMarkdown(report: ScanReport): string {
     `- Policy denies: ${report.summary.denied}`,
     `- Policy warnings: ${report.summary.warned}`,
     "",
-    "## Findings",
-    "",
   ];
   if (report.findings.length === 0) {
     lines.push("No risky tool capabilities were detected by the current heuristics.", "");
     return `${lines.join("\n")}\n`;
   }
+  lines.push("## Approval plan", "");
+  for (const step of report.approvalPlan) {
+    lines.push(`- **${step.action}** ${step.title}: ${step.reason} (${step.evidenceCount} evidence item${step.evidenceCount === 1 ? "" : "s"})`);
+  }
+  lines.push("", "## Findings", "");
   for (const finding of report.findings) {
     lines.push(`### ${finding.label} (${finding.risk})`, "");
     if (finding.policyAction) lines.push(`Policy: **${finding.policyAction}** — ${finding.policyReason ?? "matched rule"}`, "");
