@@ -30,6 +30,15 @@ export interface CapabilityFinding {
   policyReason?: string | undefined;
 }
 
+export interface ApprovalStep {
+  id: string;
+  title: string;
+  requiredFor: RiskLevel;
+  action: "document" | "approve" | "block";
+  reason: string;
+  evidenceCount: number;
+}
+
 export interface ParsedManifest {
   filePath: string;
   format: "json" | "yaml";
@@ -69,6 +78,7 @@ export interface ScanReport {
     warned: number;
   };
   findings: CapabilityFinding[];
+  approvalPlan: ApprovalStep[];
   policy?: {
     path: string;
     rules: number;

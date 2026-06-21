@@ -8,6 +8,7 @@ import type { OutputFormat, ScanOptions, ScanReport } from "./types.js";
 export type * from "./types.js";
 export { parseManifest, parseManifests } from "./parser.js";
 export { classifyManifest } from "./classifier.js";
+export { buildApprovalPlan } from "./approval.js";
 export { applyPolicy, loadPolicy } from "./policy.js";
 export { renderMarkdown, renderReport } from "./report.js";
 export { recommendedReviewMode, riskEmoji } from "./severity.js";
