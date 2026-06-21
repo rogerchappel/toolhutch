@@ -84,3 +84,13 @@ See [SECURITY.md](SECURITY.md). Please do not include real secrets in reports, f
 ## License
 
 MIT
+
+## Release check
+
+Before publishing or handing a branch to automation, run:
+
+```bash
+npm run release:check
+```
+
+This runs the project verification scripts, including the package smoke check where configured.
