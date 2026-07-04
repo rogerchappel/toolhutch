@@ -22,6 +22,18 @@ test("cli rejects unknown options with usage exit", () => {
   assert.match(result.stderr, /Unknown option/);
 });
 
+test("cli scan can fail on a configured risk threshold", () => {
+  const result = spawnSync(process.execPath, [...CLI, "scan", "fixtures/risky-openclaw-tools.json", "--fail-on", "high"], { encoding: "utf8" });
+  assert.equal(result.status, 2);
+  assert.match(result.stdout, /Highest risk:/);
+});
+
+test("cli rejects invalid risk thresholds with usage exit", () => {
+  const result = spawnSync(process.execPath, [...CLI, "scan", "fixtures/benign-tools.json", "--fail-on", "severe"], { encoding: "utf8" });
+  assert.equal(result.status, 64);
+  assert.match(result.stderr, /--fail-on must be low, medium, high, or critical/);
+});
+
 test("cli shows command help without trying to scan --help as a path", () => {
   const result = spawnSync(process.execPath, [...CLI, "scan", "--help"], { encoding: "utf8" });
   assert.equal(result.status, 0);
