@@ -19,6 +19,7 @@ node dist/cli.js --help
 
 ```sh
 toolhutch scan ./fixtures/risky-openclaw-tools.json
+toolhutch scan ./fixtures/risky-openclaw-tools.json --fail-on high
 toolhutch scan ./fixtures/mcp-mixed.yaml --format json
 toolhutch explain ./fixtures/risky-openclaw-tools.json --json
 toolhutch policy ./fixtures/risky-openclaw-tools.json --policy ./examples/toolhutch.policy.json
@@ -61,7 +62,7 @@ Policies are tiny local JSON/YAML files:
 }
 ```
 
-Actions are `allow`, `warn`, and `deny`. `toolhutch policy` exits `3` when any finding is denied.
+Actions are `allow`, `warn`, and `deny`. `toolhutch policy` exits `3` when any finding is denied. For a quick gate without writing a policy file, `toolhutch scan <path> --fail-on high` exits `2` when the highest detected risk is `high` or `critical`.
 
 ## Local-first safety model
 

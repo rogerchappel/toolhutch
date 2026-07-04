@@ -16,8 +16,9 @@ Use this skill when an agent is asked to review MCP, OpenClaw, or similar tool m
 
 1. Run `toolhutch scan <path>` for a Markdown brief.
 2. Run `toolhutch scan <path> --format json` when another tool needs structured output.
-3. Run `toolhutch policy <path> --policy <policy-file>` before enabling tools in a shared or credentialed workspace.
-4. Copy the approval plan and highest-risk findings into the issue, pull request, or run log.
+3. Run `toolhutch scan <path> --fail-on high` when a CI or agent lane should stop on high or critical exposure.
+4. Run `toolhutch policy <path> --policy <policy-file>` before enabling tools in a shared or credentialed workspace.
+5. Copy the approval plan and highest-risk findings into the issue, pull request, or run log.
 
 ## Approval boundaries
 
