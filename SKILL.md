@@ -20,6 +20,7 @@ Use this skill when an agent or maintainer needs a local evidence brief for MCP,
 
 - `toolhutch scan <path>` emits a Markdown risk brief.
 - `toolhutch scan <path> --format json` emits deterministic JSON.
+- `toolhutch scan <path> --fail-on high` exits `2` when the highest detected risk reaches the threshold.
 - `toolhutch explain <path> --json` includes low-risk evidence and exits `2` for critical capabilities.
 - `toolhutch policy <path> --policy <policy.json>` applies local rules and exits `3` on deny.
 
@@ -43,6 +44,7 @@ For a fixture smoke:
 
 ```sh
 toolhutch scan ./fixtures/risky-openclaw-tools.json
+toolhutch scan ./fixtures/risky-openclaw-tools.json --fail-on high
 toolhutch policy ./fixtures/risky-openclaw-tools.json --policy ./examples/toolhutch.policy.json
 ```
 

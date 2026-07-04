@@ -7,6 +7,7 @@
 - [x] Implement `toolhutch scan <path>` for JSON/YAML manifests.
 - [x] Implement `toolhutch explain <path>` with deterministic evidence output.
 - [x] Implement `toolhutch policy <path> --policy <file>` with allow/warn/deny rules.
+- [x] Add `toolhutch scan --fail-on <risk>` for lightweight automation gates.
 - [x] Classify shell, filesystem read/write, browser, network, messaging, secrets, database, and package-manager capabilities.
 - [x] Render Markdown and JSON reports.
 - [x] Include deterministic approval-plan gates in reports.

@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 import { scan, scanToString, VERSION } from "./index.js";
 import { asErrorMessage, ToolhutchError } from "./errors.js";
-import type { OutputFormat } from "./types.js";
+import { riskRank } from "./capabilities.js";
+import type { OutputFormat, RiskLevel } from "./types.js";
 
 interface ParsedArgs {
   command: string;
   target?: string | undefined;
   format: OutputFormat;
   policyPath?: string | undefined;
+  failOn?: RiskLevel | undefined;
   json: boolean;
 }
 
@@ -24,8 +26,9 @@ async function main(argv: string[]): Promise<number> {
   if (!args.target) throw new ToolhutchError(`Missing path for ${args.command}`, "USAGE");
   const format = args.json ? "json" : args.format;
   if (args.command === "scan") {
+    const report = await scan(args.target, { format, policyPath: args.policyPath });
     process.stdout.write(await scanToString(args.target, { format, policyPath: args.policyPath }));
-    return 0;
+    return args.failOn && riskRank(report.summary.highestRisk) >= riskRank(args.failOn) ? 2 : 0;
   }
   if (args.command === "explain") {
     const report = await scan(args.target, { policyPath: args.policyPath });
@@ -61,6 +64,8 @@ function parseArgs(argv: string[]): ParsedArgs {
     } else if (arg === "--policy") {
       parsed.policyPath = argv[++index];
       if (!parsed.policyPath || parsed.policyPath.startsWith("--")) throw new ToolhutchError("--policy requires a path", "USAGE");
+    } else if (arg === "--fail-on") {
+      parsed.failOn = parseRisk(argv[++index]);
     } else if (arg.startsWith("--")) {
       throw new ToolhutchError(`Unknown option: ${arg}`, "USAGE");
     } else {
@@ -75,8 +80,13 @@ function parseArgs(argv: string[]): ParsedArgs {
   return parsed;
 }
 
+function parseRisk(value: string | undefined): RiskLevel {
+  if (value === "low" || value === "medium" || value === "high" || value === "critical") return value;
+  throw new ToolhutchError("--fail-on must be low, medium, high, or critical", "USAGE");
+}
+
 function help(): string {
-  return `toolhutch ${VERSION}\n\nUsage:\n  toolhutch scan <path> [--format markdown|json] [--policy policy.json]\n  toolhutch explain <path> [--json]\n  toolhutch policy <path> --policy policy.json [--json]\n  toolhutch --help | --version\n\nCommands:\n  scan      Emit a risk brief for JSON/YAML tool manifests.\n  explain   Emit all evidence and exit 2 when critical capabilities are present.\n  policy    Apply allow/warn/deny rules and exit 3 on deny.\n\nNo command performs network calls.\n`;
+  return `toolhutch ${VERSION}\n\nUsage:\n  toolhutch scan <path> [--format markdown|json] [--policy policy.json] [--fail-on high]\n  toolhutch explain <path> [--json]\n  toolhutch policy <path> --policy policy.json [--json]\n  toolhutch --help | --version\n\nCommands:\n  scan      Emit a risk brief for JSON/YAML tool manifests; exit 2 when --fail-on is reached.\n  explain   Emit all evidence and exit 2 when critical capabilities are present.\n  policy    Apply allow/warn/deny rules and exit 3 on deny.\n\nNo command performs network calls.\n`;
 }
 
 main(process.argv.slice(2)).then((code) => {
