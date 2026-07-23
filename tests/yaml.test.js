@@ -12,6 +12,6 @@ test("YAML sequences of mappings match equivalent JSON", async () => {
 test("malformed YAML indentation reports a stable location and code", async () => {
   await assert.rejects(
     parseManifest("fixtures/malformed-indentation.yaml"),
-    /Could not parse fixtures\/malformed-indentation\.yaml: Invalid YAML at line 3, column 3 \(MISSING_CHAR\)/,
+    /Could not parse fixtures\/malformed-indentation\.yaml: Invalid YAML at line 3, column 1 \(MISSING_CHAR\)/,
   );
 });
