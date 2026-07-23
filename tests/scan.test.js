@@ -23,6 +23,16 @@ test("scan parses yaml MCP-style manifests", async () => {
   assert.ok(report.findings.some((finding) => finding.capability === "secrets"));
 });
 
+test("scan gives equivalent findings for YAML and JSON tool lists", async () => {
+  const [yaml, json] = await Promise.all([scan("fixtures/tool-list.yaml"), scan("fixtures/tool-list.json")]);
+  const summarize = (report) => report.findings.map(({ capability, risk }) => ({ capability, risk }));
+
+  assert.deepEqual(summarize(yaml), summarize(json));
+  assert.ok(yaml.findings.some((finding) => finding.capability === "shell"));
+  assert.ok(yaml.findings.some((finding) => finding.capability === "network"));
+  assert.ok(yaml.findings.some((finding) => finding.capability === "filesystem-read"));
+});
+
 test("scan includes approval gates in JSON-ready reports", async () => {
   const report = await scan("fixtures/approval-gates.json");
   assert.ok(report.approvalPlan.some((step) => step.action === "block"));
