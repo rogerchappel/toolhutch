@@ -55,5 +55,8 @@
   "bugs": {
     "url": "https://github.com/rogerchappel/toolhutch/issues"
   },
-  "homepage": "https://github.com/rogerchappel/toolhutch#readme"
+  "homepage": "https://github.com/rogerchappel/toolhutch#readme",
+  "dependencies": {
+    "yaml": "^2.9.0"
+  }
 }
