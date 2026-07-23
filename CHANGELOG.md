@@ -14,3 +14,7 @@ All notable changes to this project will be documented in this file.
 - Deterministic approval-plan gates for critical, high, medium, low, and policy-denied findings.
 - Local allow/warn/deny policy files.
 - Fixtures, unit tests, CLI smoke tests, approval-gate coverage, and validation script integration.
+
+### Fixed
+
+- Parse ordinary YAML sequences of multi-field mappings, including nested mappings and lists, with deterministic errors for malformed input.

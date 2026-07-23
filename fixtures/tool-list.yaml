@@ -1,0 +1,14 @@
+tools:
+  - name: shell
+    description: "Executes: commands # locally" # quoted hash is data
+    command: bash
+    capabilities:
+      - filesystem-read
+      - shell
+    metadata:
+      owner: "platform:ops"
+  - name: web-search
+    description: 'Fetches: pages # safely'
+    endpoint: https://example.invalid/search
+    capabilities:
+      - network
