@@ -1,0 +1,19 @@
+{
+  "tools": [
+    {
+      "name": "shell",
+      "description": "Executes: commands # locally",
+      "command": "bash",
+      "capabilities": ["filesystem-read", "shell"],
+      "metadata": {
+        "owner": "platform:ops"
+      }
+    },
+    {
+      "name": "web-search",
+      "description": "Fetches: pages # safely",
+      "endpoint": "https://example.invalid/search",
+      "capabilities": ["network"]
+    }
+  ]
+}
