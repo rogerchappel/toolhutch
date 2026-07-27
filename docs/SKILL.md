@@ -20,6 +20,8 @@ Use this skill when an agent is asked to review MCP, OpenClaw, or similar tool m
 4. Run `toolhutch policy <path> --policy <policy-file>` before enabling tools in a shared or credentialed workspace.
 5. Copy the approval plan and highest-risk findings into the issue, pull request, or run log.
 
+`--fail-on` and `--format` are scan-only options. Always give `policy` a nonempty `--policy <path>` operand; unsupported command-option combinations exit `64`.
+
 ## Approval boundaries
 
 - Treat policy denies and critical findings as blocked until a human owner approves.

@@ -25,6 +25,8 @@ toolhutch explain ./fixtures/risky-openclaw-tools.json --json
 toolhutch policy ./fixtures/risky-openclaw-tools.json --policy ./examples/toolhutch.policy.json
 ```
 
+`--fail-on` and `--format` are scan-only options. `policy` always requires a nonempty `--policy <path>` operand; `explain` and `policy` accept `--json` for structured output. Unsupported command-option combinations fail with usage exit `64`.
+
 Example output includes capability labels, risk levels, evidence paths, mitigations, and an approval plan for the risky capabilities found.
 
 ## Approval plans

@@ -13,6 +13,8 @@ interface ParsedArgs {
   json: boolean;
 }
 
+type CommandOption = "--fail-on" | "--format" | "--json" | "--policy";
+
 async function main(argv: string[]): Promise<number> {
   const args = parseArgs(argv);
   if (args.command === "--help" || args.command === "help") {
@@ -46,6 +48,7 @@ async function main(argv: string[]): Promise<number> {
 function parseArgs(argv: string[]): ParsedArgs {
   const parsed: ParsedArgs = { command: "--help", format: "markdown", json: false };
   const positionals: string[] = [];
+  const suppliedOptions = new Set<CommandOption>();
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index]!;
     if (arg === "--help" || arg === "-h") {
@@ -56,15 +59,20 @@ function parseArgs(argv: string[]): ParsedArgs {
       parsed.command = "version";
       continue;
     }
-    if (arg === "--json") parsed.json = true;
-    else if (arg === "--format") {
+    if (arg === "--json") {
+      suppliedOptions.add(arg);
+      parsed.json = true;
+    } else if (arg === "--format") {
+      suppliedOptions.add(arg);
       const value = argv[++index];
       if (value !== "json" && value !== "markdown") throw new ToolhutchError("--format must be json or markdown", "USAGE");
       parsed.format = value;
     } else if (arg === "--policy") {
+      suppliedOptions.add(arg);
       parsed.policyPath = argv[++index];
       if (!parsed.policyPath || parsed.policyPath.startsWith("--")) throw new ToolhutchError("--policy requires a path", "USAGE");
     } else if (arg === "--fail-on") {
+      suppliedOptions.add(arg);
       parsed.failOn = parseRisk(argv[++index]);
     } else if (arg.startsWith("--")) {
       throw new ToolhutchError(`Unknown option: ${arg}`, "USAGE");
@@ -76,8 +84,27 @@ function parseArgs(argv: string[]): ParsedArgs {
     parsed.command = positionals[0] ?? "--help";
     parsed.target = positionals[1];
     if (positionals.length > 2) throw new ToolhutchError(`Unexpected argument: ${positionals[2]}`, "USAGE");
+    validateCommandOptions(parsed, suppliedOptions);
   }
   return parsed;
+}
+
+function validateCommandOptions(parsed: ParsedArgs, suppliedOptions: Set<CommandOption>): void {
+  const supportedOptions: Partial<Record<string, ReadonlySet<CommandOption>>> = {
+    scan: new Set(["--fail-on", "--format", "--json", "--policy"]),
+    explain: new Set(["--json"]),
+    policy: new Set(["--json", "--policy"]),
+  };
+  const supported = supportedOptions[parsed.command];
+  if (!supported) return;
+  for (const option of suppliedOptions) {
+    if (!supported.has(option)) {
+      throw new ToolhutchError(`${option} is not supported by the ${parsed.command} command`, "USAGE");
+    }
+  }
+  if (parsed.command === "policy" && !parsed.policyPath) {
+    throw new ToolhutchError("policy requires --policy <path>", "USAGE");
+  }
 }
 
 function parseRisk(value: string | undefined): RiskLevel {
