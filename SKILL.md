@@ -24,6 +24,8 @@ Use this skill when an agent or maintainer needs a local evidence brief for MCP,
 - `toolhutch explain <path> --json` includes low-risk evidence and exits `2` for critical capabilities.
 - `toolhutch policy <path> --policy <policy.json>` applies local rules and exits `3` on deny.
 
+`--fail-on` and `--format` apply only to `scan`. The `policy` command requires a nonempty `--policy <path>` operand. Do not pass scan-only options to `explain` or `policy`; invalid combinations exit `64`.
+
 ## Side Effects
 
 All commands are read-only. The CLI does not make network calls, execute listed tools, read secret values intentionally, enforce runtime permissions, or upload reports.
