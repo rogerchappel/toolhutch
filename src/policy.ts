@@ -1,6 +1,6 @@
 import { promises as fs } from "node:fs";
 import { parseSimpleYaml } from "./yaml.js";
-import type { CapabilityFinding, PolicyAction, ToolhutchPolicy } from "./types.js";
+import type { CapabilityClass, CapabilityFinding, PolicyAction, ToolhutchPolicy } from "./types.js";
 import { ToolhutchError } from "./errors.js";
 
 const ACTION_RANK: Record<PolicyAction, number> = { allow: 1, warn: 2, deny: 3 };
@@ -30,5 +30,22 @@ export function applyPolicy(findings: CapabilityFinding[], policy?: ToolhutchPol
 
 function isPolicy(value: unknown): value is ToolhutchPolicy {
   if (!value || typeof value !== "object" || !Array.isArray((value as { rules?: unknown }).rules)) return false;
-  return (value as ToolhutchPolicy).rules.every((rule) => ["allow", "warn", "deny"].includes(rule.action));
+  return (value as { rules: unknown[] }).rules.every(isPolicyRule);
+}
+
+const CAPABILITIES = new Set<CapabilityClass>([
+  "shell", "filesystem-read", "filesystem-write", "browser", "network", "messaging", "secrets", "database", "package-manager", "unknown",
+]);
+const ACTIONS = new Set<PolicyAction>(["allow", "warn", "deny"]);
+const RULE_FIELDS = new Set(["capability", "match", "action", "reason"]);
+
+function isPolicyRule(value: unknown): boolean {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const rule = value as Record<string, unknown>;
+  if (Object.keys(rule).some((field) => !RULE_FIELDS.has(field))) return false;
+  if (!ACTIONS.has(rule.action as PolicyAction)) return false;
+  if (rule.capability !== undefined && (typeof rule.capability !== "string" || !CAPABILITIES.has(rule.capability as CapabilityClass))) return false;
+  if (rule.match !== undefined && typeof rule.match !== "string") return false;
+  if (rule.reason !== undefined && typeof rule.reason !== "string") return false;
+  return true;
 }

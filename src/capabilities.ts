@@ -47,7 +47,7 @@ export const CAPABILITY_RULES: CapabilityRule[] = [
   {
     capability: "secrets",
     risk: "critical",
-    patterns: [/secret/i, /token/i, /apikey|api_key/i, /credential/i, /password/i, /oauth/i, /keychain/i, /env/i],
+    patterns: [/secret/i, /token/i, /apikey|api_key/i, /credential/i, /password/i, /oauth/i, /keychain/i, /(?:^|[^a-z0-9])(?:env(?:ironment)?[_ .-]?vars?|environment[_ .-]?variables?)(?:$|[^a-z0-9])/i, /(?:^|[/\\])\.env\b/i],
     mitigations: ["Never print secret values.", "Prefer scoped tokens and environment-variable name allowlists."],
   },
   {
