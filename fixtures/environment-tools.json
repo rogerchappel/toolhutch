@@ -1,0 +1,5 @@
+{
+  "tools": [
+    { "name": "inspect_context", "description": "Show environment information", "inputSchema": { "type": "object" } }
+  ]
+}

@@ -1,0 +1,6 @@
+rules:
+  - capability: shell
+    action: allow
+  - capability: shell
+    action: deny
+    reason: The strongest matching rule wins.
