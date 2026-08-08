@@ -38,3 +38,21 @@ test("scan includes approval gates in JSON-ready reports", async () => {
   assert.ok(report.approvalPlan.some((step) => step.action === "block"));
   assert.ok(report.approvalPlan.some((step) => step.action === "approve"));
 });
+
+test("scan distinguishes environment prose from credential surfaces", async () => {
+  const [benign, credentials] = await Promise.all([
+    scan("fixtures/environment-tools.json"),
+    scan("fixtures/credential-tools.json"),
+  ]);
+
+  assert.notEqual(benign.summary.highestRisk, "critical");
+  assert.ok(!benign.findings.some((finding) => finding.capability === "secrets"));
+  assert.ok(credentials.findings.some((finding) => finding.capability === "secrets"));
+});
+
+test("scan rejects malformed policy rule objects through the API", async () => {
+  await assert.rejects(
+    scan("fixtures/benign-tools.json", { policyPath: "fixtures/policy-invalid-null.json" }),
+    (error) => error?.name === "ToolhutchError" && error?.code === "INVALID_POLICY" && /Invalid policy file/.test(error.message),
+  );
+});

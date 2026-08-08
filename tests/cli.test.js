@@ -85,3 +85,21 @@ test("cli rejects missing policy path instead of consuming another flag", () => 
   assert.equal(result.status, 64);
   assert.match(result.stderr, /--policy requires a path/);
 });
+
+test("cli reports stable errors for invalid JSON and YAML policies", () => {
+  for (const policy of ["fixtures/policy-invalid-fields.json", "fixtures/policy-invalid-fields.yaml"]) {
+    const result = spawnSync(process.execPath, [...CLI, "policy", "fixtures/benign-tools.json", "--policy", policy, "--json"], { encoding: "utf8" });
+    assert.equal(result.status, 1, policy);
+    assert.equal(result.stdout, "", policy);
+    assert.match(result.stderr, new RegExp(`^toolhutch: Invalid policy file: ${policy}`), policy);
+    assert.doesNotMatch(result.stderr, /TypeError|Cannot read properties/, policy);
+  }
+});
+
+test("valid policy rules retain strongest-action behavior", () => {
+  const result = spawnSync(process.execPath, [...CLI, "policy", "fixtures/risky-openclaw-tools.json", "--policy", "fixtures/policy-strongest.yaml", "--json"], { encoding: "utf8" });
+  assert.equal(result.status, 3);
+  const shell = JSON.parse(result.stdout).findings.find((finding) => finding.capability === "shell");
+  assert.equal(shell.policyAction, "deny");
+  assert.equal(shell.policyReason, "The strongest matching rule wins.");
+});
