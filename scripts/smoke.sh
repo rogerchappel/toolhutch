@@ -11,7 +11,7 @@ node dist/cli.js scan fixtures/risky-openclaw-tools.json --format json >"$smoke_
 # Execute the scan-and-policy example documented in SKILL.md and docs/PRD.md.
 node dist/cli.js scan ./fixtures/risky-openclaw-tools.json --format markdown \
   --policy ./examples/toolhutch.policy.json >"$smoke_dir/documented-example.md"
-grep -q "Policy: deny" "$smoke_dir/documented-example.md"
+grep -q "Policy: \*\*deny\*\*" "$smoke_dir/documented-example.md"
 
 node dist/cli.js policy fixtures/risky-openclaw-tools.json --policy examples/toolhutch.policy.json --json >"$smoke_dir/policy.json" || code=$?
 if [[ "${code:-0}" != "3" ]]; then
