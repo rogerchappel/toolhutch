@@ -53,6 +53,6 @@ toolhutch policy ./fixtures/risky-openclaw-tools.json --policy ./examples/toolhu
 ## Example
 
 ```sh
-toolhutch scan . --format markdown --policy ./toolhutch.policy.json
-toolhutch explain ./mcp.json --json
+toolhutch scan ./fixtures/risky-openclaw-tools.json --format markdown --policy ./examples/toolhutch.policy.json
+toolhutch explain ./fixtures/benign-tools.json --json
 ```
